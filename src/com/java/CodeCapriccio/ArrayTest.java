@@ -141,7 +141,6 @@ public int removeElement1(int[] nums, int val) {
         }
         return -1;
     }
-
 }
 
 
