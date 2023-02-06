@@ -3,16 +3,14 @@ package com.java.CodeCapriccio;
 import java.util.Arrays;
 
 public class ArrayTest {
-    int nums [];
-    int target;
+    int n;
 
     public static void main(String[] args) {
         ArrayTest arraytest = new ArrayTest();
-        arraytest.nums = new int[]{2,3,1,2,4,3};
-        arraytest.target = 7;
-        arraytest.minSubArrayLen(arraytest.target, arraytest.nums);
+//        arraytest.nums = new int[]{2,3,1,2,4,3};
+        arraytest.n = 3;
+        arraytest.generateMatrix(arraytest.n);
     }
-
 
 
 
@@ -24,9 +22,45 @@ public class ArrayTest {
    [ 8, 9, 4 ],
    [ 7, 6, 5 ] ]
 
-思路：
-*/
+思路：模拟顺时针螺旋排列矩阵，从四个边界依次给矩阵赋值
 
+     int n;
+     public static void main(String[] args) {
+         ArrayTest arraytest = new ArrayTest();
+         arraytest.n = 3;
+         arraytest.generateMatrix(arraytest.n);
+     }
+ */
+public int[][] generateMatrix(int n) {
+    int num=1,max=n*n;  //矩阵元素从1-n*n
+    int l=0,r=n-1,t=0,b=n-1;    //定义左右上下边界值
+    int [][] res = new int[n][n];   // 定义一个结果矩阵，按题述模拟赋值
+
+    while (num<=max){
+        for (int i=l;i<=r;i++){     //模拟填充上行从左到右，从l边界到r边界
+            res[t][i]=num;
+            num++;
+        }
+        t++;
+        for (int i=t;i<=b;i++){
+            res[i][r]=num;
+            num++;
+        }
+        r--;
+        for (int i=r;i>=l;i--){
+            res[b][i]=num;
+            num++;
+        }
+        b--;
+        for (int i=b;i>=t;i--){
+            res[i][l]=num;
+            num++;
+        }
+        l++;
+    }
+//        System.out.println(Arrays.toString(res));
+    return res;
+}
 
 
 /**********************************      长度最小的子数组       ******************************************
