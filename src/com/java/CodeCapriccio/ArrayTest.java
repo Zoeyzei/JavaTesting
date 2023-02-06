@@ -4,34 +4,115 @@ import java.util.Arrays;
 
 public class ArrayTest {
     int nums [];
-    int val;
+    int target;
 
     public static void main(String[] args) {
         ArrayTest arraytest = new ArrayTest();
-        arraytest.nums = new int[]{1, 2, 5, 8};
-        arraytest.val = 5;
-        System.out.println(arraytest.removeElement1(arraytest.nums, arraytest.val));
+        arraytest.nums = new int[]{2,3,1,2,4,3};
+        arraytest.target = 7;
+        arraytest.minSubArrayLen(arraytest.target, arraytest.nums);
     }
 
 
-/*
+
+
+/********************************      螺旋矩阵II       ***************************************
+ 给定一个正整数 n，生成一个包含 1 到 n^2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+ 示例:
+ 输入: 3 输出:
+ [ [ 1, 2, 3 ],
+   [ 8, 9, 4 ],
+   [ 7, 6, 5 ] ]
+
+思路：
+*/
+
+
+
+/**********************************      长度最小的子数组       ******************************************
+ 给定一个含有 n 个正整数的数组和一个正整数 target 。
+ 找出该数组中满足其和 ≥ target 的长度最小的 连续子数组 [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 。
+ 示例 1：
+ 输入：target = 7, nums = [2,3,1,2,4,3]
+ 输出：2
+ 解释：子数组 [4,3] 是该条件下的长度最小的子数组。
+ 示例 3：
+ 输入：target = 11, nums = [1,1,1,1,1,1,1,1]
+ 输出：0
+
+ 思路：滑动窗口法，设置窗口[left,right]，以右指针为索引进行循环，左指针调整每次循环的位置，使得刚好满足 窗口内元素和 ≥ target，记录本次循环的最小长度及元素和
+
+     int nums [];
+     int target;
+     public static void main(String[] args) {
+         ArrayTest arraytest = new ArrayTest();
+         arraytest.nums = new int[]{2,3,1,2,4,3};
+         arraytest.target = 7;
+         arraytest.minSubArrayLen(arraytest.target, arraytest.nums);
+     }
+ */
+
+     public int minSubArrayLen(int target, int[] nums) {
+         int i=0, j=0,sum=0,len=0;
+         int ans = Integer.MAX_VALUE;  //新建一个int数据类型的最大取值数
+         for (j=0;j<=nums.length-1;j++){
+             sum = sum + nums[j];
+             while (sum>=target){
+                 sum = sum - nums[i];  //更新左边界后总和更新
+                 len = j - i + 1;
+                 ans = Math.min(len,ans);   //调用Math类函数，取窗口长度最小值
+                 i++;
+             }
+         }
+         System.out.println(ans);
+         return ans==Integer.MAX_VALUE ? 0 : ans;    //三元运算符，若nums元素总和<target，则返回0，否则返回ans
+     }
+
+
+
+
+
+
+/**********************************      有序数组的平方       ******************************************
     给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。
-
-
-
     示例 1：
-
     输入：nums = [-4,-1,0,3,10]
     输出：[0,1,9,16,100]
     解释：平方后，数组变为 [16,1,0,9,100]
     排序后，数组变为 [0,1,9,16,100]
     示例 2：
-
     输入：nums = [-7,-3,2,3,11]
     输出：[4,9,9,49,121]
+
+    思路：双指针法，首尾比较元素平方大小，取较大值复制给新数组的指针
+
+    int nums [];
+    public static void main(String[] args) {
+        ArrayTest arraytest = new ArrayTest();
+        arraytest.nums = new int[]{-3, 2, 5, 8};
+        arraytest.sortedSquares(arraytest.nums);
+    }
 */
 
-
+    public int[] sortedSquares(int[] nums) {
+        int i=0, j=nums.length-1;
+        int a=nums.length-1;
+        int [] newnums = new int [nums.length];
+        while (i<=j){
+            if (nums[i]*nums[i]<nums[j]*nums[j]){
+                newnums[a] = nums[j]*nums[j];
+                j--;
+                a--;
+            }
+            else{
+                newnums[a] = nums[i]*nums[i];
+                i++;
+                a--;
+            }
+        }
+        System.out.println(Arrays.toString(newnums));
+        return newnums;
+    }
 
 /*  ****************************移除元素***********************************
 给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
@@ -105,8 +186,6 @@ public int removeElement1(int[] nums, int val) {
     }
     return j;//返回最终数列的长度
 }
-
-
 
 
 
