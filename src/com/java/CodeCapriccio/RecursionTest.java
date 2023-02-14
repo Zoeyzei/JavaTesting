@@ -1,14 +1,13 @@
 package com.java.CodeCapriccio;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 public class RecursionTest {
     int n;
 
     public static void main(String[] args) {
         RecursionTest recursion = new RecursionTest();
-        recursion.n = 5;
-        System.out.println(recursion.fib(recursion.n));
+        recursion.n = 7;
+        System.out.println(recursion.numWays(recursion.n));
     }
 
 /********************************   青蛙跳台阶问题    ************************************

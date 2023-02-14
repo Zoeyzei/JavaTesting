@@ -1,6 +1,6 @@
 package com.java.CodeCapriccio;
 
-import sun.security.util.Length;
+
 
 public class StringTest {
     int k;
@@ -9,32 +9,19 @@ public class StringTest {
     public static void main(String[] args) {
         StringTest stringtest = new StringTest();
         stringtest.s = "hello";
-        stringtest.k = 3;
+        stringtest.k = 2;
         stringtest.reverseStr(stringtest.s,stringtest.k);
     }
 
-    public String reverseStr(String s, int k) {
-        int i=0,j=0,n=0;
-        char[] tempchar=s.toCharArray();
-        String news = s;
-        while (i<s.length()){
-            j=(i+k-1<s.length())?(i+k-1):s.length();    //判断右边界是否越界，若越界则赋值length
-            System.out.println(i);
-            System.out.println(j);
-            System.out.println(s.substring(i,j));
-            news = s.substring(i,j+1);
-//            反转函数
-            i+=2*k;
 
-        }
-        return news;
-    }
+/******************************  替换空格   ***************************
+请实现一个函数，把字符串 s 中的每个空格替换成"%20"。
+示例 1：
+输入：s = "We are happy."
+输出："We%20are%20happy."
 
-/*
-    public void reverseString1{
-
-    }
 */
+
 
 /******************************  反转字符串II   ***************************
 给定一个字符串 s 和一个整数 k，从字符串开头算起，每计数至 2k 个字符，就反转这 2k 字符中的前 k 个字符。
@@ -48,9 +35,37 @@ public class StringTest {
 输出："bacd"
 
 思路：
- 双指针法，判断[2nk, 3nk-1]是否越界，若为有效区间则开始反转，若右指针越界则将右指针移至字符串尾，若左指针越界则结束
- f(2nk) <-> f(3nk-1)
-*/
+ 双指针法，判断[2nk, i+k-1]是否越界length-1，若为有效区间则开始反转，若右指针越界则将右指针移至字符串尾，若左指针越界则结束
+ 注意char[]数组与String字符串的转换
+ f(2nk) <-> f(i+k-1)
+
+ StringTest stringtest = new StringTest();
+ stringtest.s = "hello";
+ stringtest.k = 2;
+ stringtest.reverseStr(stringtest.s,stringtest.k);
+ */
+    public String reverseStr(String s, int k) {
+        int i=0,j=0;
+        char[] temp = s.toCharArray();
+        while (i<s.length()){
+            j=(i+k-1<s.length())?(i+k-1):(s.length()-1);    //判断右边界是否越界，若越界则赋值length-1
+            reverseString1(temp,i,j);   //反转[i,j]
+            i+=2*k;
+        }
+        System.out.println(String.copyValueOf(temp));
+        return String.copyValueOf(temp);
+    }
+
+    //创建字符串反转函数，将char数组中的[i,j]区间反转
+    public void reverseString1(char[] s, int i, int j) {
+        while (i < j) {
+            char temp = s[i];
+            s[i] = s[j];
+            s[j] = temp;
+            i++;
+            j--;
+        }
+    }
 
 
 
@@ -72,18 +87,16 @@ public class StringTest {
      stringtest.reverseString(stringtest.s);
 
  */
-public void reverseString(char[] s) {
-    int i=0,j=s.length-1;
-    while (i<=j){
-        char temp = s[i];
-        s[i] = s[j];
-        s[j] = temp;
-        i++;
-        j--;
+    public void reverseString(char[] s) {
+        int i=0,j=s.length-1;
+        while (i<=j){
+            char temp = s[i];
+            s[i] = s[j];
+            s[j] = temp;
+            i++;
+            j--;
+        }
+        System.out.println(s);
     }
-    System.out.println(s);
-}
-
-
 
 }
