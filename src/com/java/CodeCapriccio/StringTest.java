@@ -1,13 +1,56 @@
 package com.java.CodeCapriccio;
 
+import sun.security.util.Length;
+
 public class StringTest {
-    char[] s;
+    int k;
+    String s;
 
     public static void main(String[] args) {
         StringTest stringtest = new StringTest();
-        stringtest.s = new char[]{'h','e','l','l','o'};
-        stringtest.reverseString(stringtest.s);
+        stringtest.s = "hello";
+        stringtest.k = 3;
+        stringtest.reverseStr(stringtest.s,stringtest.k);
     }
+
+    public String reverseStr(String s, int k) {
+        int i=0,j=0,n=0;
+        char[] tempchar=s.toCharArray();
+        String news = s;
+        while (i<s.length()){
+            j=(i+k-1<s.length())?(i+k-1):s.length();    //判断右边界是否越界，若越界则赋值length
+            System.out.println(i);
+            System.out.println(j);
+            System.out.println(s.substring(i,j));
+            news = s.substring(i,j+1);
+//            反转函数
+            i+=2*k;
+
+        }
+        return news;
+    }
+
+/*
+    public void reverseString1{
+
+    }
+*/
+
+/******************************  反转字符串II   ***************************
+给定一个字符串 s 和一个整数 k，从字符串开头算起，每计数至 2k 个字符，就反转这 2k 字符中的前 k 个字符。
+如果剩余字符少于 k 个，则将剩余字符全部反转。
+如果剩余字符小于 2k 但大于或等于 k 个，则反转前 k 个字符，其余字符保持原样。
+示例 1：
+输入：s = "abcdefg", k = 2
+输出："bacdfeg"
+示例 2：
+输入：s = "abcd", k = 2
+输出："bacd"
+
+思路：
+ 双指针法，判断[2nk, 3nk-1]是否越界，若为有效区间则开始反转，若右指针越界则将右指针移至字符串尾，若左指针越界则结束
+ f(2nk) <-> f(3nk-1)
+*/
 
 
 
