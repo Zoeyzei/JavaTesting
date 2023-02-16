@@ -3,15 +3,29 @@ package com.java.CodeCapriccio;
 
 
 public class StringTest {
-    int k;
     String s;
 
     public static void main(String[] args) {
         StringTest stringtest = new StringTest();
-        stringtest.s = "hello";
-        stringtest.k = 2;
-        stringtest.reverseStr(stringtest.s,stringtest.k);
+        stringtest.s = "he ll o";
+        stringtest.replaceSpace(stringtest.s);
     }
+
+    public String replaceSpace(String s) {
+        StringBuilder news = new StringBuilder();   //创建可变字符串类StringBuilder对象
+        char[] temp = s.toCharArray();      //判断空格时需要将string字符串转换为char[]数组，对char元素进行比较
+        int i=0;
+        for (i=0;i<s.length();i++){
+            if (temp[i]==' '){
+                news.append("%20");     //调用StringBuilder类函数
+            }
+            else {
+                news.append(temp[i]);
+            }
+        }
+        return news.toString();     //转换为String类型返回
+    }
+
 
 
 /******************************  替换空格   ***************************
@@ -20,7 +34,12 @@ public class StringTest {
 输入：s = "We are happy."
 输出："We%20are%20happy."
 
+ 思路：String类为不可变类型，需先创建StringBuilder对象，判断空格时需要将string字符串转换为char[]数组，对char元素进行比较
+        常规思路：新建StringBuilder对象，从前往后遍历s，对空格进行替换后复制到news
+        优化：为了减少元素移动次数，从后往前进行遍历，双指针法，左指针将非空格元素往后移
+             注意首先需要扩充数组到每个空格替换成"%20"之后的大小
 */
+
 
 
 /******************************  反转字符串II   ***************************
