@@ -8,28 +8,45 @@ public class StringTest {
 
     public static void main(String[] args) {
         StringTest stringtest = new StringTest();
-        stringtest.s = "a good   example    ";
+        stringtest.s = "  a good  example  ";
         System.out.println(stringtest.reverseWords(stringtest.s));
     }
 
     public String reverseWords(String s) {
         StringBuilder res = new StringBuilder();
-        int i=s.length()-2,j=s.length()-1;
+        int i=s.length()-1,j=s.length()-1,l=0;
         char[] temp = s.toCharArray();
 
-        while (i>=0){
-            while (temp[i]==' '){
+        System.out.println("i="+i+" j="+j);
+        while (temp[l]==' '){   //从后往前遍历，去除字符串首端空格
+            l++;
+        }
+        if (i==l){      //当只有一个有效字符，"  a"
+            res.append(temp[i]);
+        }
+        while (i>l){
+            while (temp[i]==' ' && i>l){   //跳过连续空格
                 i--;
                 j--;
             }
-            i--;
-            if (temp[i]==' '){
+            if (i>l){       //左指针跳过该单词定位到单词左侧空格
+                i--;
+            }
+            System.out.println("i="+i+" j="+j);
+            if (temp[i]==' '){         //定位单词两端，将该单词复制到新字符串并加上空格
                  for (k=i+1;k<=j;k++){
                      System.out.println(temp[k]);
                      res.append(temp[k]);
                  }
+                 res.append(' ');
+                 j=i;
+            } else if (i==l) {      //当左指针已经移动到字符串第一个元素，将第一个单词输出
+                for (k=i;k<=j;k++){
+                    System.out.println(temp[k]);
+                    res.append(temp[k]);
                 }
             }
+        }
         return res.toString();
     }
 
@@ -53,8 +70,8 @@ public class StringTest {
 
  思路：
  1、新建StringBuilder对象res，判断空格时需要将string字符串转换为char[]数组
- 2、双指针从后往前，左指针往左移位直到前一位元素是空格，右指针往左移位直到后一位元素是空格，定位一个单词，将单词复制到StringBuilder对象res
- 3、终止条件：i=0且i<=j
+ 2、双指针从后往前，遇到空格左右指针一起左移，遇到单词仅左指针往左移位直到前一位元素是空格，定位一个单词，将单词复制到StringBuilder对象res
+ 3、终止条件：i=l，l为去掉字符串首端空格的位置
 */
 
 
