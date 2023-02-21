@@ -3,28 +3,62 @@ package com.java.CodeCapriccio;
 
 
 public class StringTest {
+    int k;
     String s;
 
     public static void main(String[] args) {
         StringTest stringtest = new StringTest();
-        stringtest.s = "he ll o";
-        stringtest.replaceSpace(stringtest.s);
+        stringtest.s = "a good   example    ";
+        System.out.println(stringtest.reverseWords(stringtest.s));
     }
 
-    public String replaceSpace(String s) {
-        StringBuilder news = new StringBuilder();   //创建可变字符串类StringBuilder对象
-        char[] temp = s.toCharArray();      //判断空格时需要将string字符串转换为char[]数组，对char元素进行比较
-        int i=0;
-        for (i=0;i<s.length();i++){
+    public String reverseWords(String s) {
+        StringBuilder res = new StringBuilder();
+        int i=s.length()-2,j=s.length()-1;
+        char[] temp = s.toCharArray();
+
+        while (i>=0){
+            while (temp[i]==' '){
+                i--;
+                j--;
+            }
+            i--;
             if (temp[i]==' '){
-                news.append("%20");     //调用StringBuilder类函数
+                 for (k=i+1;k<=j;k++){
+                     System.out.println(temp[k]);
+                     res.append(temp[k]);
+                 }
+                }
             }
-            else {
-                news.append(temp[i]);
-            }
-        }
-        return news.toString();     //转换为String类型返回
+        return res.toString();
     }
+
+/*****************************  反转字符串中的单词   ***************************
+ 给你一个字符串 s ，请你反转字符串中 单词 的顺序。
+ 单词 是由非空格字符组成的字符串。s 中使用至少一个空格将字符串中的 单词 分隔开。
+ 返回 单词 顺序颠倒且 单词 之间用单个空格连接的结果字符串。
+ 注意：输入字符串 s中可能会存在前导空格、尾随空格或者单词间的多个空格。返回的结果字符串中，单词间应当仅用单个空格分隔，且不包含任何额外的空格。
+
+ 示例 1：
+ 输入：s = "the sky is blue"
+ 输出："blue is sky the"
+ 示例 2：
+ 输入：s = "  hello world  "
+ 输出："world hello"
+ 解释：反转后的字符串中不能存在前导空格和尾随空格。
+ 示例 3：
+ 输入：s = "a good   example"
+ 输出："example good a"
+ 解释：如果两个单词间有多余的空格，反转后的字符串需要将单词间的空格减少到仅有一个。
+
+ 思路：
+ 1、新建StringBuilder对象res，判断空格时需要将string字符串转换为char[]数组
+ 2、双指针从后往前，左指针往左移位直到前一位元素是空格，右指针往左移位直到后一位元素是空格，定位一个单词，将单词复制到StringBuilder对象res
+ 3、终止条件：i=0且i<=j
+*/
+
+
+
 
 
 
@@ -39,7 +73,21 @@ public class StringTest {
         优化：为了减少元素移动次数，从后往前进行遍历，双指针法，左指针将非空格元素往后移
              注意首先需要扩充数组到每个空格替换成"%20"之后的大小
 */
+    public String replaceSpace(String s) {
+        StringBuilder news = new StringBuilder();   //创建可变字符串类StringBuilder对象
+        char[] temp = s.toCharArray();      //判断空格时需要将string字符串转换为char[]数组，对char元素进行比较
+        int i=0;
+        for (i=0;i<s.length();i++){
+            if (temp[i]==' '){
+                news.append("%20");     //调用StringBuilder类函数
+            }
+            else {
+                news.append(temp[i]);
+            }
+        }
+        return news.toString();     //转换为String类型返回
 
+    }
 
 
 /******************************  反转字符串II   ***************************
