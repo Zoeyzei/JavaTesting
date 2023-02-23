@@ -3,52 +3,44 @@ package com.java.CodeCapriccio;
 
 
 public class StringTest {
-    int k;
+    int n;
     String s;
 
     public static void main(String[] args) {
         StringTest stringtest = new StringTest();
-        stringtest.s = "  a good  example  ";
-        System.out.println(stringtest.reverseWords(stringtest.s));
+        stringtest.s = "example";
+        stringtest.n = 2;
+        System.out.println(stringtest.reverseLeftWords(stringtest.s,stringtest.n));
     }
 
-    public String reverseWords(String s) {
+
+
+/***************************  左旋转字符串   *************************
+ 字符串的左旋转操作是把字符串前面的若干个字符转移到字符串的尾部。请定义一个函数实现字符串左旋转操作的功能。
+ 比如，输入字符串"abcdefg"和数字2，该函数将返回左旋转两位得到的结果"cdefgab"。
+ 示例 1：
+ 输入: s = "abcdefg", k = 2
+ 输出: "cdefgab"
+ 示例 2：
+ 输入: s = "lrloseumgh", k = 6
+ 输出: "umghlrlose"
+思路：新建一个字符串，将两个区间的字符串复制到新空间
+ 思路2：不申请额外空间，采取两个区间字符串反转
+
+*/
+    public String reverseLeftWords(String s, int n) {
         StringBuilder res = new StringBuilder();
-        int i=s.length()-1,j=s.length()-1,l=0;
         char[] temp = s.toCharArray();
 
-        System.out.println("i="+i+" j="+j);
-        while (temp[l]==' '){   //从后往前遍历，去除字符串首端空格
-            l++;
-        }
-        if (i==l){      //当只有一个有效字符，"  a"
+        for (int i=n;i<s.length();i++){
             res.append(temp[i]);
         }
-        while (i>l){
-            while (temp[i]==' ' && i>l){   //跳过连续空格
-                i--;
-                j--;
-            }
-            if (i>l){       //左指针跳过该单词定位到单词左侧空格
-                i--;
-            }
-            System.out.println("i="+i+" j="+j);
-            if (temp[i]==' '){         //定位单词两端，将该单词复制到新字符串并加上空格
-                 for (k=i+1;k<=j;k++){
-                     System.out.println(temp[k]);
-                     res.append(temp[k]);
-                 }
-                 res.append(' ');
-                 j=i;
-            } else if (i==l) {      //当左指针已经移动到字符串第一个元素，将第一个单词输出
-                for (k=i;k<=j;k++){
-                    System.out.println(temp[k]);
-                    res.append(temp[k]);
-                }
-            }
+        for (int i=0;i<n;i++){
+            res.append(temp[i]);
         }
         return res.toString();
     }
+
 
 /*****************************  反转字符串中的单词   ***************************
  给你一个字符串 s ，请你反转字符串中 单词 的顺序。
@@ -72,8 +64,46 @@ public class StringTest {
  1、新建StringBuilder对象res，判断空格时需要将string字符串转换为char[]数组
  2、双指针从后往前，遇到空格左右指针一起左移，遇到单词仅左指针往左移位直到前一位元素是空格，定位一个单词，将单词复制到StringBuilder对象res
  3、终止条件：i=l，l为去掉字符串首端空格的位置
-*/
 
+ stringtest.s = "  a good  example  ";
+ */
+public String reverseWords(String s) {
+    StringBuilder res = new StringBuilder();
+    int i=s.length()-1,j=s.length()-1,l=0;
+    char[] temp = s.toCharArray();
+
+    System.out.println("i="+i+" j="+j);
+    while (temp[l]==' '){   //从后往前遍历，去除字符串首端空格
+        l++;
+    }
+    if (i==l){      //当只有一个有效字符，"  a"
+        res.append(temp[i]);
+    }
+    while (i>l){
+        while (temp[i]==' '){   //跳过连续空格
+            i--;
+            j--;
+        }
+        if (i>l){       //左指针跳过该单词定位到单词左侧空格
+            i--;
+        }
+        System.out.println("i="+i+" j="+j);
+        if (temp[i]==' '){         //定位单词两端，将该单词复制到新字符串并加上空格
+            for (int k=i+1;k<=j;k++){
+                System.out.println(temp[k]);
+                res.append(temp[k]);
+            }
+            res.append(' ');
+            j=i;
+        } else if (i==l) {      //当左指针已经移动到字符串第一个元素，将第一个单词输出
+            for (int k=i;k<=j;k++){
+                System.out.println(temp[k]);
+                res.append(temp[k]);
+            }
+        }
+    }
+    return res.toString();
+}
 
 
 
