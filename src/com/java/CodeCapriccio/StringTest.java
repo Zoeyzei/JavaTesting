@@ -4,13 +4,56 @@ package com.java.CodeCapriccio;
 
 public class StringTest {
     int n;
-    String s;
+    int[] temp;
+    String s1,s2;
 
     public static void main(String[] args) {
         StringTest stringtest = new StringTest();
-        stringtest.s = "example";
-        stringtest.n = 2;
-        System.out.println(stringtest.reverseLeftWords(stringtest.s,stringtest.n));
+        stringtest.s1 = "sabutsad";
+        stringtest.s2 = "sad";
+        stringtest.temp = new int[8];
+//        System.out.println(stringtest.strStr(stringtest.s1,stringtest.s2));
+        stringtest.getnext(stringtest.s1,stringtest.temp);
+    }
+
+/**************************  找出字符串中第一个匹配项的下标  *************************
+ 给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串的第一个匹配项的下标（下标从 0 开始）。如果 needle 不是 haystack 的一部分，则返回  -1 。
+ 示例 1：
+ 输入：haystack = "sadbutsad", needle = "sad"
+ 输出：0
+ 解释："sad" 在下标 0 和 6 处匹配。
+ 第一个匹配项的下标是 0 ，所以返回 0 。
+ 示例 2：
+ 输入：haystack = "leetcode", needle = "leeto"
+ 输出：-1
+ 解释："leeto" 没有在 "leetcode" 中出现，所以返回 -1 。
+
+思路：KMP-字符串匹配算法，构造next数组
+ next数组构造：next[n] = [0,n-1]区间最长相等前后缀长度
+ 字符串匹配：利用next数组，当发生某元素不匹配时，获取前一个字符的next值next[i-1]，跳过next[i-1]个字符进行下一次匹配
+*/
+    public int strStr(String haystack, String needle) {
+//        getnext(haystack,[1,2]);
+        return 0;
+    }
+
+    public void getnext(String s, int[] next) {
+        next[0]=0;
+        for (int j=1;j<s.length();j++){
+            int i=0;
+            while (i<j){
+                if (s.charAt(i)==s.charAt(j)){
+                    next[j]++;
+                    i++;
+                    j--;
+                }
+                else if (j>0){
+                    next[j]=next[j-1];
+                }
+                System.out.println(next);
+            }
+        }
+        System.out.println(next);
     }
 
 
@@ -24,8 +67,8 @@ public class StringTest {
  示例 2：
  输入: s = "lrloseumgh", k = 6
  输出: "umghlrlose"
-思路：新建一个字符串，将两个区间的字符串复制到新空间
- 思路2：不申请额外空间，采取两个区间字符串反转
+思路：列表遍历拼接，新建StringBuilder，将两个区间的字符串复制到新空间
+ 思路2：不申请额外空间，调用substring采取两个区间字符串反转
 
 */
     public String reverseLeftWords(String s, int n) {
@@ -41,8 +84,12 @@ public class StringTest {
         return res.toString();
     }
 
+    public String reverseLeftWords1(String s, int n) {
+        return s.substring(n,s.length())+s.substring(0,n);
+    }
 
-/*****************************  反转字符串中的单词   ***************************
+
+    /*****************************  反转字符串中的单词   ***************************
  给你一个字符串 s ，请你反转字符串中 单词 的顺序。
  单词 是由非空格字符组成的字符串。s 中使用至少一个空格将字符串中的 单词 分隔开。
  返回 单词 顺序颠倒且 单词 之间用单个空格连接的结果字符串。
