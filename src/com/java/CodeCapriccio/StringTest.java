@@ -1,6 +1,7 @@
 package com.java.CodeCapriccio;
 
 
+import java.util.Arrays;
 
 public class StringTest {
     int n;
@@ -12,8 +13,8 @@ public class StringTest {
         stringtest.s1 = "sabutsad";
         stringtest.s2 = "sad";
         stringtest.temp = new int[8];
-//        System.out.println(stringtest.strStr(stringtest.s1,stringtest.s2));
-        stringtest.getnext(stringtest.s1,stringtest.temp);
+        System.out.println(stringtest.strStr(stringtest.s1,stringtest.s2));
+//        stringtest.strStr(stringtest.s1,stringtest.s2);
     }
 
 /**************************  找出字符串中第一个匹配项的下标  *************************
@@ -28,33 +29,54 @@ public class StringTest {
  输出：-1
  解释："leeto" 没有在 "leetcode" 中出现，所以返回 -1 。
 
-思路：KMP-字符串匹配算法，构造next数组
- next数组构造：next[n] = [0,n-1]区间最长相等前后缀长度
- 字符串匹配：利用next数组，当发生某元素不匹配时，获取前一个字符的next值next[i-1]，跳过next[i-1]个字符进行下一次匹配
-*/
-    public int strStr(String haystack, String needle) {
-//        getnext(haystack,[1,2]);
-        return 0;
-    }
+思路：KMP-字符串匹配算法，构造next数组，当遇到不匹配的字符时主串i指针不动,子串j指针回退到next[j-1]
 
-    public void getnext(String s, int[] next) {
-        next[0]=0;
-        for (int j=1;j<s.length();j++){
-            int i=0;
-            while (i<j){
-                if (s.charAt(i)==s.charAt(j)){
-                    next[j]++;
-                    i++;
-                    j--;
-                }
-                else if (j>0){
-                    next[j]=next[j-1];
-                }
-                System.out.println(next);
+ stringtest.s1 = "sabutsad";
+ stringtest.s2 = "sad";
+ stringtest.temp = new int[8];
+ System.out.println(stringtest.strStr(stringtest.s1,stringtest.s2));
+
+ */
+    public int strStr(String haystack, String needle) {
+        if (needle.length()==0){
+            return 0;}
+        int j=0;
+        int[] next = new int[needle.length()];
+        getnext(needle,next);   //构造next数组得到可以跳过的字符数
+
+//      i指向主串匹配的元素，j指向子串匹配的元素.当遇到不匹配的字符时i指针不动,j回退到next[j-1]，直到j=0，重新匹配第一个字符；
+//      当匹配成功后返回主串第一个匹配子串的索引
+        for (int i=0;i<haystack.length();i++){
+            while (haystack.charAt(i)!=needle.charAt(j) && j>0){
+                j=next[j-1];
+            }
+            if (haystack.charAt(i)==needle.charAt(j)){
+                j++;
+            }
+            if (j==needle.length()){
+                return i-j+1;
             }
         }
-        System.out.println(next);
+        return -1;
     }
+
+//    next数组构造：递推，i指向后缀末尾，j指向前缀末尾
+    public void getnext(String s, int[] next) {
+        next[0]=0;
+        int j=0,i=1;    //初始化
+        for (i=1;i<s.length();i++){
+            //当字符不匹配时回退，next[j-1]获取j之前的字符串区间最长相等前后缀长度，将j回退到前缀后重新匹配
+            while (s.charAt(i)!=s.charAt(j) && j>0){
+                    j=next[j-1];
+            }
+            //当前字符匹配成功，i、j右移
+            if (s.charAt(i)==s.charAt(j)){
+                j++;
+            }
+            next[i]=j;
+            System.out.println(Arrays.toString(next));
+            }
+        }
 
 
 
