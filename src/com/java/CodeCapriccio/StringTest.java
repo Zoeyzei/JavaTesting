@@ -17,6 +17,29 @@ public class StringTest {
 //        stringtest.strStr(stringtest.s1,stringtest.s2);
     }
 
+/*********************************  重复的子字符串  *********************************
+ 给定一个非空的字符串 s ，检查是否可以通过由它的一个子串重复多次构成。
+     示例 1:
+         输入: s = "abab"
+         输出: true
+         解释: 可由子串 "ab" 重复两次构成。
+     示例 2:
+         输入: s = "aba"
+         输出: false
+     示例 3:
+         输入: s = "abcabcabcabc"
+         输出: true
+         解释: 可由子串 "abc" 重复四次构成。 (或子串 "abcabc" 重复两次构成。)
+
+
+*/
+    public boolean repeatedSubstringPattern(String s) {
+
+    }
+
+
+
+
 /**************************  找出字符串中第一个匹配项的下标  *************************
  给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串的第一个匹配项的下标（下标从 0 开始）。如果 needle 不是 haystack 的一部分，则返回  -1 。
  示例 1：
@@ -131,7 +154,7 @@ public class StringTest {
 
  思路：
  1、新建StringBuilder对象res，判断空格时需要将string字符串转换为char[]数组
- 2、双指针从后往前，遇到空格左右指针一起左移，遇到单词仅左指针往左移位直到前一位元素是空格，定位一个单词，将单词复制到StringBuilder对象res
+ 2、双指针从后往前，去除字符串首端空格，遇到空格左右指针一起左移，遇到单词仅左指针往左移位直到前一位元素是空格，定位一个单词，将单词复制到StringBuilder对象res
  3、终止条件：i=l，l为去掉字符串首端空格的位置
 
  stringtest.s = "  a good  example  ";
