@@ -10,10 +10,10 @@ public class StringTest {
 
     public static void main(String[] args) {
         StringTest stringtest = new StringTest();
-        stringtest.s1 = "sabutsad";
+        stringtest.s1 = "abcabcabc";
         stringtest.s2 = "sad";
         stringtest.temp = new int[8];
-        System.out.println(stringtest.strStr(stringtest.s1,stringtest.s2));
+        System.out.println(stringtest.repeatedSubstringPattern(stringtest.s1));
 //        stringtest.strStr(stringtest.s1,stringtest.s2);
     }
 
@@ -30,11 +30,13 @@ public class StringTest {
          输入: s = "abcabcabcabc"
          输出: true
          解释: 可由子串 "abc" 重复四次构成。 (或子串 "abcabc" 重复两次构成。)
-
+ 思路1：定义一个新串p=s+s，去除首尾字符后，s若仍为p的子串，那么s为重复字符串
+ 思路2：kmp算法
 
 */
     public boolean repeatedSubstringPattern(String s) {
-
+        String p = s + s;
+        return p.substring(1,p.length()-1).contains(s);
     }
 
 
