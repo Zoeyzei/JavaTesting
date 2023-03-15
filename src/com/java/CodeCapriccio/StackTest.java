@@ -1,12 +1,61 @@
 package com.java.CodeCapriccio;
 
+import jdk.internal.icu.lang.UCharacter;
+
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Stack;
 
 public class StackTest {
-    Stack<Integer> stackin;
-    Stack<Integer> stackout;
+    Deque<UCharacter> stackin;
+    Deque<Integer> stackout;
+    String s;
+
+    public static void main(String[] args) {
+        StackTest stacktest = new StackTest();
+
+//        stacktest.stackin = new Stack<>();
+        stacktest.s = "()[]{}";
+        System.out.println(stacktest.isValid(stacktest.s));
+//        stringtest.strStr(stringtest.s1,stringtest.s2);
+    }
+
+
+/*********************************   有效的括号   ********************************
+     给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+     有效字符串需满足：
+     左括号必须用相同类型的右括号闭合。
+     左括号必须以正确的顺序闭合。
+     每个右括号都有一个对应的相同类型的左括号。
+
+     示例 1：
+     输入：s = "()"
+     输出：true
+     示例 2：
+     输入：s = "()[]{}"
+     输出：true
+     示例 3：
+     输入：s = "(]"
+     输出：false
+
+     思路：栈，无效括号分为三种情况（左括号多余 ((([{}]))()，右括号多余 ({})[[]]}，左右括号数目一样但是不匹配 [[{}]](}）
+     将元素依次进栈，遇到对应的括号出栈，验证最终栈是否为空
+     */
+    public boolean isValid(String s) {
+        stackin = new ArrayDeque<>();
+        int i=0;
+        while (i<s.length()){
+            if(s.charAt(i)=='('){
+                stackin.push(')');
+            }
+        }
+    }
+
+
+
+
+
 
 /*********************************  用栈实现队列  ********************************
  请你仅使用两个栈实现先入先出队列。队列应当支持一般队列支持的所有操作（push、pop、peek、empty）：
@@ -28,19 +77,16 @@ public class StackTest {
      myQueue.peek(); // return 1
      myQueue.pop(); // return 1, queue is [2]
      myQueue.empty(); // return false
-
- Stack<Integer> stackin;
- Stack<Integer> stackout;
 */
 
-    public MyQueue() {
-        stackin = new Stack<>();
-        stackout = new Stack<>();
-    }
+//    public MyQueue() {
+//        stackin = new ArrayDeque<>();
+//        stackout = new ArrayDeque<>();
+//    }
 
-    public void push(int x) {
-        stackin.push(x);
-    }
+//    public void push(int x) {
+//        stackin.push(x);
+//    }
 
     public int pop() {
         while (stackout.isEmpty()){
@@ -62,8 +108,11 @@ public class StackTest {
 
     private void intoout(){
         while (!stackin.isEmpty()){
-            stackout.push(stackin.pop());
+//            stackout.push(stackin.pop());
         }
     }
+
+
+
 
 }

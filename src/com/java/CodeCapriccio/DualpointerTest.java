@@ -1,7 +1,9 @@
 package com.java.CodeCapriccio;
 
-import sun.security.util.Length;
+//import sun.security.util.Length;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DualpointerTest {
@@ -11,8 +13,8 @@ public class DualpointerTest {
     public static void main(String[] args) {
         DualpointerTest dptest = new DualpointerTest();
         dptest.i = 2;
-        dptest.nums = new int[]{0,1,2,2,3,0,4,2};
-        System.out.println(dptest.removeElement(dptest.nums,dptest.i));
+        dptest.nums = new int[]{-1,0,1,2,-1,-4};
+        System.out.println(dptest.threeSum(dptest.nums));
     }
 
 
@@ -34,7 +36,35 @@ public class DualpointerTest {
 
 */
     public List<List<Integer>> threeSum(int[] nums) {
-
+        List<List<Integer>> temp = new ArrayList();
+        int i,j,k,sum;
+        int n = nums.length;
+        Arrays.stream(nums).sorted();
+        for (i=0;i<n;i++){
+            if (nums[i]>0){
+                break;
+            }
+            if (i>0 && nums[i]==nums[i-1]){
+                continue;
+            }
+            j = i+1;
+            k = n-1;
+            sum = nums[i] + nums[j] + nums[k];
+            if (sum<0){
+                j++;
+            }
+            else if (sum>0){
+                k--;
+            }
+            else {
+                temp.add(Arrays.asList(nums[i],nums[j],nums[k]));
+                j++;
+                k--;
+                while (j<k && nums[j]==nums[j-1]){j++;};
+                while (j<k && nums[k]==nums[k+1]){k--;};
+            }
+        }
+        return temp;
     }
 
 
