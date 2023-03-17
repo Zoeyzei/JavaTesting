@@ -1,6 +1,6 @@
 package com.java.CodeCapriccio;
 
-//import sun.security.util.Length;
+import sun.security.util.Length;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,34 +34,45 @@ public class DualpointerTest {
      示例 3：
      输入：nums = [0,0,0]
 
-*/
+ 思路：双指针，先将nums排序，对于一个确定的元素nums[i]，在[i+1,length-1]的区间里寻找两个元素j、k，使得三数之和==0，即 nums[j] + nums[k] = -nums[i]
+      注意去重
+ dptest.nums = new int[]{-1,0,1,2,-1,-4};
+ */
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> temp = new ArrayList();
+        List<List<Integer>> temp = new ArrayList();     //新建二维数组Temp存储有效三数组合
         int i,j,k,sum;
         int n = nums.length;
-        Arrays.stream(nums).sorted();
+//        Arrays.stream(nums).sorted();
+        Arrays.sort(nums);      //数组排序 [-4, -1, -1, 0, 1, 2]
+        System.out.println(Arrays.toString(nums));
         for (i=0;i<n;i++){
             if (nums[i]>0){
-                break;
+                break;      //三个正数之和不可能为0
             }
             if (i>0 && nums[i]==nums[i-1]){
-                continue;
+                continue;       // i去重
             }
             j = i+1;
             k = n-1;
-            sum = nums[i] + nums[j] + nums[k];
-            if (sum<0){
-                j++;
-            }
-            else if (sum>0){
-                k--;
-            }
-            else {
-                temp.add(Arrays.asList(nums[i],nums[j],nums[k]));
-                j++;
-                k--;
-                while (j<k && nums[j]==nums[j-1]){j++;};
-                while (j<k && nums[k]==nums[k+1]){k--;};
+            //对于每个确定的i，双指针法在[i+1,length-1]的区间里寻找两个元素j、k
+            while (j<k) {
+                sum = nums[i] + nums[j] + nums[k];
+                if (sum < 0) {
+                    j++;
+                } else if (sum > 0) {
+                    k--;
+                } else {
+                    temp.add(Arrays.asList(nums[i], nums[j], nums[k]));         //添加有效三数组合
+//                System.out.println("i="+i+" j="+j+" k="+k);
+                    while (j < k && nums[j] == nums[j + 1]) {       // j去重
+                        j++;
+                    }
+                    while (j < k && nums[k] == nums[k - 1]) {       // k去重
+                        k--;
+                    }
+                    j++;
+                    k--;
+                }
             }
         }
         return temp;

@@ -1,6 +1,8 @@
 package com.java.CodeCapriccio;
 
-import jdk.internal.icu.lang.UCharacter;
+//import jdk.internal.icu.lang.UCharacter;
+
+import sun.text.normalizer.UCharacter;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -8,7 +10,7 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 public class StackTest {
-    Deque<UCharacter> stackin;
+    Deque<Character> stackin;
     Deque<Integer> stackout;
     String s;
 
@@ -49,7 +51,15 @@ public class StackTest {
             if(s.charAt(i)=='('){
                 stackin.push(')');
             }
+            if(s.charAt(i)=='['){
+                stackin.push(']');
+            }
+            if(s.charAt(i)=='{'){
+                stackin.push('}');
+            }
+
         }
+        return true;
     }
 
 
