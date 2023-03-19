@@ -1,8 +1,6 @@
 package com.java.CodeCapriccio;
 
-//import jdk.internal.icu.lang.UCharacter;
 
-import sun.text.normalizer.UCharacter;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
