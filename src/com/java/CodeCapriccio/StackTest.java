@@ -18,7 +18,7 @@ public class StackTest {
         StackTest stacktest = new StackTest();
 
 //        stacktest.stackin = new Stack<>();
-        stacktest.s = "()[]{}";
+        stacktest.s = "([])";
         System.out.println(stacktest.isValid(stacktest.s));
 //        stringtest.strStr(stringtest.s1,stringtest.s2);
     }
@@ -42,24 +42,42 @@ public class StackTest {
      输出：false
 
      思路：栈，无效括号分为三种情况（左括号多余 ((([{}]))()，右括号多余 ({})[[]]}，左右括号数目一样但是不匹配 [[{}]](}）
-     将元素依次进栈，遇到对应的括号出栈，验证最终栈是否为空
+        将元素依次进栈，比较栈顶元素与当前元素是否匹配，遇到对应的括号出栈
+        若匹配失败即左右括号数目一样但是不匹配，若字符遍历完毕最终栈不为空则左括号多余，若栈为空字符未遍历完毕则右括号多余
+        匹配方法1：左括号入栈时直接用对应右括号
+        匹配方法2：哈希表构建左右括号对应关系：key对应左括号，value对应右括号
+
      */
     public boolean isValid(String s) {
         stackin = new ArrayDeque<>();
         int i=0;
+//      括号落单情况排除
+        if (s.length()%2 != 0){
+            return false;
+        }
+//      遍历字符串s，为了方便匹配括号，将与之对应的括号入栈
         while (i<s.length()){
             if(s.charAt(i)=='('){
                 stackin.push(')');
             }
-            if(s.charAt(i)=='['){
+            else if(s.charAt(i)=='['){
                 stackin.push(']');
             }
-            if(s.charAt(i)=='{'){
+            else if(s.charAt(i)=='{'){
                 stackin.push('}');
             }
-
+//          判断无效括号：栈为空或者括号不匹配
+            else if (stackin.isEmpty() || s.charAt(i)!=stackin.peek()){
+                return false;
+            }
+//          将匹配成功的括号对消除
+            else if (s.charAt(i)==stackin.peek()){
+                stackin.pop();
+            }
+            i++;
         }
-        return true;
+//      若字符串已遍历完毕，栈仍不为空，则为左括号冗余情况
+        return stackin.isEmpty();
     }
 
 
