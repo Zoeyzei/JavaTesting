@@ -2,10 +2,7 @@ package com.java.CodeCapriccio;
 
 
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 public class StackTest {
     Deque<Character> stackin;
@@ -17,7 +14,7 @@ public class StackTest {
 
 //        stacktest.stackin = new Stack<>();
         stacktest.s = "([])";
-        System.out.println(stacktest.isValid(stacktest.s));
+        System.out.println(stacktest.isValid1(stacktest.s));
 //        stringtest.strStr(stringtest.s1,stringtest.s2);
     }
 
@@ -79,7 +76,37 @@ public class StackTest {
     }
 
 
+    public boolean isValid1(String s) {
+        int i=0;
+        stackin = new ArrayDeque<>();
+//      哈希表构建左右括号对应关系：key对应左括号，value对应右括号
+        HashMap<Character,Character> sites = new HashMap<>();
+        sites.put('(',')');
+        sites.put('{','}');
+        sites.put('[',']');
 
+//      括号落单情况排除
+        if (s.length()%2 != 0){
+            return false;
+        }
+//      遍历字符串s，为了方便匹配括号，将与之对应的括号入栈
+        while (i<s.length()){
+            if (sites.containsKey(s.charAt(i))){
+                stackin.push(s.charAt(i));
+            }
+//          判断无效括号：栈为空或者括号不匹配
+            else if (stackin.isEmpty() || s.charAt(i)!=sites.get(stackin.peek())){
+                return false;
+            }
+//          将匹配成功的括号对消除
+            else if (s.charAt(i)==sites.get(stackin.peek())){
+                stackin.pop();
+            }
+            i++;
+        }
+//      若字符串已遍历完毕，栈仍不为空，则为左括号冗余情况
+        return stackin.isEmpty();
+    }
 
 
 
