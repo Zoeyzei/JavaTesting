@@ -34,6 +34,7 @@ public class BackTracking {
     private void dfs(int n, int k, int start, Deque<Integer>path, List<List<Integer>> res){
         if (path.size()==k){
             res.add(new ArrayList<>(path));
+            return;
         }
         for (int i = start; i < n; i++) {
             path.push(i);
