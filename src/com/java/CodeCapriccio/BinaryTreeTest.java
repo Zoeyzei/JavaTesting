@@ -6,7 +6,9 @@ import java.util.List;
 
 public class BinaryTreeTest {
     public static void main(String[] args) {
-
+        BinaryTreeTest test = new BinaryTreeTest();
+//        test.root = [1,2,3,null,5];
+//        binaryTreePaths(TreeNode root);
     }
 
     public class TreeNode {
@@ -31,13 +33,19 @@ public class BinaryTreeTest {
 */
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> res = new ArrayList<>();
-        String s;
+        if (root == null){
+            return res;
+        }
         if (root.left==null && root.right==null){
-            res.add(root);
+            res.add(root.val + "");
         }
         for (String path : binaryTreePaths(root.left)){
             res.add(root.val + "->" + path);
         }
+        for (String path : binaryTreePaths(root.right)){
+            res.add(root.val + "->" + path);
+        }
+        return res;
     }
 
 
