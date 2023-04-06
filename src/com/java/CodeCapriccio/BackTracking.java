@@ -1,14 +1,14 @@
 package com.java.CodeCapriccio;
 
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class BackTracking {
+    int n,k;
     public static void main(String[] args) {
         BackTracking backTracking = new BackTracking();
-
+        backTracking.n = 4;
+        backTracking.k = 2;
+        backTracking.combine(backTracking.n, backTracking.k);
     }
 
 /***************************    组合      *************************
@@ -20,26 +20,31 @@ public class BackTracking {
  终止条件：
 */
     public List<List<Integer>> combine(int n, int k) {
-        int start=1;
+//        二维数组res存储最终答案，栈path存储每个组合
         List<List<Integer>> res = new ArrayList<>();
         Deque<Integer> path = new LinkedList<>();
 
-        if (k <= 0 || k <= n) {
+        if (k <= 0 || k < n) {
             return res;
         }
-        dfs(n,k,start,path,res);
+        dfs(n,k,1,path,res);
+        System.out.println("res为：" + Arrays.toString(res.get(1).toArray()));
         return res;
     }
 
     private void dfs(int n, int k, int start, Deque<Integer>path, List<List<Integer>> res){
+//        终止条件，当前path满足题目组合要求
         if (path.size()==k){
             res.add(new ArrayList<>(path));
+            System.out.println("res为：" + Arrays.toString(res.get(1).toArray()));
             return;
         }
-        for (int i = start; i < n; i++) {
-            path.push(i);
-            dfs(n,k,i+1,path,res);
-            path.pop();
+//        for循环，对每个集合进行操作
+        for (int i = start; i <= n - (k - path.size()) + 1; i++) {
+            path.push(i);       //处理节点，添加节点值
+            System.out.println(path);
+            dfs(n,k,i+1,path,res);      //递归
+            path.pop();     //回溯
         }
     }
 
