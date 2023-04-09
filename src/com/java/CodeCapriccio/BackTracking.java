@@ -2,33 +2,103 @@ package com.java.CodeCapriccio;
 
 import java.util.*;
 
+/*****************   回溯公式    *********************
+void backtracking(参数) {
+    if (终止条件) {
+        存放结果;
+        return;}
+
+    for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小）) {
+        处理节点;
+        backtracking(路径，选择列表); // 递归
+        回溯，撤销处理结果;}
+}
+*/
+
 public class BackTracking {
     int n,k;
+    String s;
     public static void main(String[] args) {
         BackTracking backTracking = new BackTracking();
         backTracking.n = 4;
         backTracking.k = 2;
-        backTracking.combine(backTracking.n, backTracking.k);
+        backTracking.s = "ab";
+        backTracking.partition(backTracking.s);
     }
+
+
+/**************************    分割回文串    *************************
+ 输入：s = "aab"
+ 输出：[["a","a","b"],["aa","b"]]
+
+ 思路：
+ */
+    public List<List<String>> partition(String s) {
+        Deque<String> path = new LinkedList<>();
+        List<List<String>> res = new ArrayList<>();
+
+        System.out.println(s.length());
+        if (s.length()==0){
+            return res;
+        }
+        partitiondfs(s,0,path,res);
+        System.out.println("res：" + res);
+        return res;
+    }
+
+    private void partitiondfs(String s, int start, Deque<String>path, List<List<String>> res){
+//        终止条件：字符串已遍历分割完毕
+        if (start==s.length()){
+            res.add(new ArrayList<>(path));
+            System.out.println("res：" + res);
+            return;
+        }
+        for (int i=start;i<s.length();i++){
+//          判断回文串[start,i]，回文标识 flag
+            int left = start,right = i;
+            boolean flag=true;
+            while (left<right){
+                if (s.charAt(left)==s.charAt(right)){
+                    left++;
+                    right--;
+                }
+                else {
+                    flag = false;
+                }
+            }
+//          若为回文串，递归回溯
+            if (flag){
+                path.push(s.substring(start,i));
+                partitiondfs(s,start=i+1,path,res);
+                path.pop();
+            }
+
+        }
+    }
+
+
+
+
+
 
 /***************************    组合      *************************
 给定两个整数 n 和 k，返回范围 [1, n] 中所有可能的 k 个数的组合。
 你可以按 任何顺序 返回答案。
  示例: 输入: n = 4, k = 2 输出: [ [2,4], [3,4], [2,3], [1,2], [1,3], [1,4], ]
 
- 回溯：
- 终止条件：
+ 回溯：用栈保存当前组合，二维数组res存储所有组合，回溯时注意剪枝（避免重复组合），
+ 优化情况考虑遍历的右边界可根据组合长度进行剪枝：k - path.size() = 接下来要选择的元素个数 = n - 右边界 + 1
 */
     public List<List<Integer>> combine(int n, int k) {
 //        二维数组res存储最终答案，栈path存储每个组合
         List<List<Integer>> res = new ArrayList<>();
         Deque<Integer> path = new LinkedList<>();
 
-        if (k <= 0 || k < n) {
+        if (k <= 0 || n < k) {
             return res;
         }
         dfs(n,k,1,path,res);
-        System.out.println("res为：" + Arrays.toString(res.get(1).toArray()));
+        System.out.println("res：" + res);
         return res;
     }
 
@@ -36,13 +106,12 @@ public class BackTracking {
 //        终止条件，当前path满足题目组合要求
         if (path.size()==k){
             res.add(new ArrayList<>(path));
-            System.out.println("res为：" + Arrays.toString(res.get(1).toArray()));
+            System.out.println("res：" + res);
             return;
         }
 //        for循环，对每个集合进行操作
         for (int i = start; i <= n - (k - path.size()) + 1; i++) {
             path.push(i);       //处理节点，添加节点值
-            System.out.println(path);
             dfs(n,k,i+1,path,res);      //递归
             path.pop();     //回溯
         }
