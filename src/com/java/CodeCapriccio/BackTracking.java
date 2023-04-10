@@ -22,22 +22,38 @@ public class BackTracking {
         BackTracking backTracking = new BackTracking();
         backTracking.n = 4;
         backTracking.k = 2;
-        backTracking.s = "ab";
+        backTracking.s = "aab";
         backTracking.partition(backTracking.s);
     }
+
+
+/*************************      子集问题       ******************************
+    输入：nums = [1,2,3]
+    输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+
+ 思路：
+ 1.子集判断
+ 2.回溯
+*/
+//    public List<List<Integer>> subsets(int[] nums) {
+//
+//    }
+
+
+
 
 
 /**************************    分割回文串    *************************
  输入：s = "aab"
  输出：[["a","a","b"],["aa","b"]]
 
- 思路：
+ 思路：回溯+回文串判断
+ 用栈保存当前分割的字符子串，二维数组res存储所有分割组合，若为回文串，递归回溯
  */
     public List<List<String>> partition(String s) {
-        Deque<String> path = new LinkedList<>();
+        Deque<String> path = new ArrayDeque<>();
         List<List<String>> res = new ArrayList<>();
 
-        System.out.println(s.length());
         if (s.length()==0){
             return res;
         }
@@ -50,7 +66,6 @@ public class BackTracking {
 //        终止条件：字符串已遍历分割完毕
         if (start==s.length()){
             res.add(new ArrayList<>(path));
-            System.out.println("res：" + res);
             return;
         }
         for (int i=start;i<s.length();i++){
@@ -64,13 +79,14 @@ public class BackTracking {
                 }
                 else {
                     flag = false;
+                    break;
                 }
             }
 //          若为回文串，递归回溯
             if (flag){
-                path.push(s.substring(start,i));
-                partitiondfs(s,start=i+1,path,res);
-                path.pop();
+                path.addLast(s.substring(start,i+1));      //截取回文串[start,i]
+                partitiondfs(s,i+1,path,res);
+                path.removeLast();
             }
 
         }
