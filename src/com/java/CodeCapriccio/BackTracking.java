@@ -25,18 +25,40 @@ void backtracking(参数) {
             backTracking.k = 2;
             backTracking.s = "aab";
             backTracking.nums = new int[]{1,2,3};
-            backTracking.subsets1(backTracking.nums);
+            backTracking.permute(backTracking.nums);
         }
 
 
 /*************************  排列问题    ************************
     输入：nums = [1,2,3]
     输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
-
+思路：1、判断是否为重复元素（布尔数组 used或者直接用contains()）；2、递归回溯
 */
-//    public List<List<Integer>> permute(int[] nums) {
-//
-//    }
+    public List<List<Integer>> permute(int[] nums) {
+        Deque<Integer> path = new ArrayDeque<>();
+        List<List<Integer>> res = new ArrayList<>();
+        boolean[] used = new boolean[nums.length];      //存储是否重复元素标识，默认为非重复字符，false
+        permutedfs(nums,used,path,res);
+        System.out.println("res：" + res);
+        return res;
+    }
+    private void permutedfs(int[] nums, boolean[] used, Deque<Integer> path, List<List<Integer>> res){
+        if (path.size()==nums.length){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        //只需要跳过重复字符，不需要去除重复组合，i从0开始
+        for (int i=0;i<nums.length;i++){
+            //添加非重复字符
+            if (!used[i]){
+                path.addLast(nums[i]);
+                used[i] = true;     //修改重复标识
+                permutedfs(nums,used,path,res);     //递归
+                used[i] = false;        //回溯，包括重复标识和当前排列
+                path.removeLast();
+            }
+        }
+    }
 
 
 
