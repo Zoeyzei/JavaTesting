@@ -15,16 +15,32 @@ void backtracking(参数) {
 }
 */
 
-public class BackTracking {
-    int n,k;
-    String s;
-    public static void main(String[] args) {
-        BackTracking backTracking = new BackTracking();
-        backTracking.n = 4;
-        backTracking.k = 2;
-        backTracking.s = "aab";
-        backTracking.partition(backTracking.s);
+    public class BackTracking {
+        int n,k;
+        int[] nums;
+        String s;
+        public static void main(String[] args) {
+            BackTracking backTracking = new BackTracking();
+            backTracking.n = 4;
+            backTracking.k = 2;
+            backTracking.s = "aab";
+            backTracking.nums = new int[]{1,2,3};
+            backTracking.subsets1(backTracking.nums);
+        }
+
+
+/*************************  排列问题    ************************
+    输入：nums = [1,2,3]
+    输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+*/
+    public List<List<Integer>> permute(int[] nums) {
+
     }
+
+
+
+
 
 
 /*************************      子集问题       ******************************
@@ -32,13 +48,56 @@ public class BackTracking {
     输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
 
  思路：
- 1.子集判断
- 2.回溯
+1.回溯
 */
-//    public List<List<Integer>> subsets(int[] nums) {
-//
-//    }
+    public List<List<Integer>> subsets1(int[] nums) {
+        Deque<Integer> path = new ArrayDeque<>();
+        List<List<Integer>> res = new ArrayList<>();
 
+        subsetsdfs(nums,0,path,res);
+        System.out.println("res：" + res);
+        return res;
+
+    }
+    private void subsetsdfs(int[] nums, int i, Deque<Integer> path,  List<List<Integer>> res){
+        res.add(new ArrayList<>(path));
+        if (i>=nums.length){
+            return;
+        }
+        for (int j=i;j<nums.length;j++){
+            path.addLast(nums[j]);
+            subsetsdfs(nums,j+1,path,res);
+            path.removeLast();
+        }
+    }
+
+
+
+
+
+//2.每个元素都有选不选 两种选择，相当于二叉树中序遍历，左子树是不选，右子树是选
+
+    public List<List<Integer>> subsets(int[] nums) {
+        ArrayList<Integer> path = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
+
+        inorder(nums,0,path,res);
+        System.out.println("res：" + res);
+        return res;
+
+    }
+    public static void inorder(int[] nums, int i, ArrayList<Integer> path,  List<List<Integer>> res){
+//        System.out.println(path);
+        if (i == nums.length){
+            res.add(path);
+            return;
+        }
+        path = new ArrayList<Integer>(path);
+
+        inorder(nums,i+1,path,res);
+        path.add(nums[i]);
+        inorder(nums,i+1,path,res);
+    }
 
 
 
