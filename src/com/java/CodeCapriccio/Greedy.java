@@ -6,12 +6,71 @@ public class Greedy {
     int[] g,s,prices;
     public static void main(String[] args) {
         Greedy greedy = new Greedy();
-        greedy.g = new int[]{1,2};
+        greedy.g = new int[]{2,3,1,1,4};
         greedy.s = new int[]{1,2,3};
         greedy.prices = new int[]{7,1,5,3,6,4};
-        System.out.println(greedy.maxProfit(greedy.prices));
+        System.out.println(greedy.canJump(greedy.g));
 
     }
+
+
+
+/****************************   分发糖果    ***************************
+n 个孩子站成一排。给你一个整数数组 ratings 表示每个孩子的评分。
+每个孩子至少分配到 1 个糖果。
+相邻两个孩子评分更高的孩子会获得更多的糖果。
+请你给每个孩子分发糖果，计算并返回需要准备的 最少糖果数目 。
+     输入：ratings = [1,2,2]
+     输出：4
+     解释：你可以分别给第一个、第二个、第三个孩子分发 1、2、1 颗糖果。
+ 思路：
+*/
+//    public int candy(int[] ratings) {
+//
+//    }
+
+
+
+
+
+/****************************   跳跃游戏    ***************************
+给定一个非负整数数组 nums ，你最初位于数组的 第一个下标 。
+数组中的每个元素代表你在该位置可以跳跃的最大长度。
+判断你是否能够到达最后一个下标。
+     输入：nums = [2,3,1,1,4]
+     输出：true
+     解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
+     输入：nums = [3,2,1,0,4]
+     输出：false
+     解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ， 所以永远不可能到达最后一个下标。
+
+ 思路：指针i每次跳一步，定义一个len为目前所能跳跃到的最大长度，根据i每次更新len，若len<i说明无法到达i指标，循环结束，
+ 若len>=nums.length或者i>=nums.length，说明可以到达终点
+*/
+    public boolean canJump(int[] nums) {
+//      定义一个len为目前所能跳跃到的最大长度
+        int len=0;
+        //指针i每次跳一步，根据i每次更新len
+        for (int i = 0; i < nums.length; i++) {
+//          若len<i说明无法到达i指标，循环结束
+            if (len<i){
+                return false;
+            }
+            len = Math.max(len,i+nums[i]);
+//          若len>=nums.length或者i>=nums.length，说明可以到达终点，这里提前结束循环
+            if (len >= nums.length){
+                return true;
+            }
+        }
+        return true;
+    }
+
+
+
+
+
+
+
 
 /***************************    买卖股票的最佳时机 II    **************************
  prices[i] 表示某支股票第 i 天的价格。
