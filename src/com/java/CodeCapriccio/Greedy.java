@@ -7,9 +7,9 @@ public class Greedy {
     public static void main(String[] args) {
         Greedy greedy = new Greedy();
         greedy.g = new int[]{2,3,1,1,4};
-        greedy.s = new int[]{1,2,3};
+        greedy.s = new int[]{1,6,10,8,7,3,2};
         greedy.prices = new int[]{7,1,5,3,6,4};
-        System.out.println(greedy.canJump(greedy.g));
+        System.out.println(greedy.candy(greedy.s));
 
     }
 
@@ -24,10 +24,39 @@ n 个孩子站成一排。给你一个整数数组 ratings 表示每个孩子的
      输出：4
      解释：你可以分别给第一个、第二个、第三个孩子分发 1、2、1 颗糖果。
  思路：
+ 输入：[1, 6, 10, 8, 7, 3, 2]
+ 输出：[1, 2,  5 , 4, 3, 2, 1]
+ 正序遍历ratings,若递增,则nums[i+1] = nums[i] + 1,否则置1;递减情况通过倒序循环解决,在正序遍历基础上倒序,若倒序递增但不满足题意则nums[i-1] = nums[i] + 1
 */
-//    public int candy(int[] ratings) {
-//
-//    }
+    public int candy(int[] ratings) {
+        int sum = 0;
+        int[] nums = new int[ratings.length];
+        if (ratings.length == 1){
+            return 1;
+        }
+        nums[0] = 1;
+//        System.out.println(Arrays.toString(ratings));
+        for (int i = 0; i < ratings.length - 1; i++) {
+            //正序遍历ratings,若递增,则nums[i+1] = nums[i] + 1,否则置1
+            if (ratings[i+1] > ratings[i]){
+                nums[i+1] = nums[i] + 1;
+            }
+            else {
+                nums[i+1] = 1;
+            }
+        }
+//        System.out.println(Arrays.toString(nums));
+        sum = nums[ratings.length-1];
+        for (int i = ratings.length - 1; i > 0; i--) {
+            //递减情况通过倒序循环解决,在正序遍历基础上倒序,若倒序递增但不满足题意则nums[i-1] = nums[i] + 1
+            if (ratings[i-1] > ratings[i] && nums[i-1] <= nums[i]){
+                nums[i-1] = nums[i] + 1;
+            }
+            sum += nums[i-1];
+        }
+//        System.out.println(Arrays.toString(nums));
+        return sum;
+    }
 
 
 
