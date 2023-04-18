@@ -1,20 +1,68 @@
 package com.java.CodeCapriccio;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class DpTest {
-    int n;
+    int m,n;
     int[] nums;
 
     public static void main(String[] args) {
         DpTest dp = new DpTest();
-        dp.n = 3;
+        dp.m = 10;
+        dp.n = 10;
         dp.nums = new int[]{1,17,5,10,13,15,10,5,16,8};
-        System.out.println(dp.climbStairs(dp.n));
+        System.out.println(dp.uniquePaths(dp.m,dp.n));
 
     }
 
 
+
+/***************************     杨辉三角     *************************
+    给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
+    在「杨辉三角」中，每个数是它左上方和右上方的数的和。
+     输入: numRows = 5
+     输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+ 思路: 动态规划;对于坐标[i,j]表示第i行第j个数,dp[i,j] = dp[i-1,j-1] + dp[i-1,j]
+*/
+//    public List<List<Integer>> generate(int numRows) {
+//
+//    }
+
+
+
+
+
+/**************************     不同路径     *************************
+    一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。
+    机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。
+    问总共有多少条不同的路径？
+     输入：m = 3, n = 7
+     输出：28
+ 思路: m x n 网格从左上角到右下角位置,需要下移 m-1 ,右移 n-1 ,相当于在 m+n-2 个位置穿插 n-1 个右移动作,可以连续右移,故一共可能情况 = C(m+n-2,n-1)
+ 注:C(m,n)表示在 m 个位置中选 n 个的可能选法
+*/
+    public int uniquePaths(int m, int n) {
+        if (m == 1){
+            return 1;
+        }
+        else if (n == 1){
+            return 1;
+        }
+        // 一共可能情况 = C(m+n-2,n-1)
+        else {
+            return (int) (pathC(m+n-2)/pathC(n-1)/pathC(m-1));
+        }
+    }
+    // 阶乘
+    private static long pathC(int m){
+        long res=1;
+        for (int i = 1; i <= m; i++) {
+            res = res * i;
+        }
+        System.out.println(res);
+        return res;
+    }
 
 
 
