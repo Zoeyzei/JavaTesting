@@ -1,20 +1,84 @@
 package com.java.CodeCapriccio;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class DpTest {
     int m,n;
     int[] nums;
+    String s;
 
     public static void main(String[] args) {
         DpTest dp = new DpTest();
-        dp.m = 10;
-        dp.n = 10;
-        dp.nums = new int[]{1,17,5,10,13,15,10,5,16,8};
-        System.out.println(dp.uniquePaths(dp.m,dp.n));
+        dp.m = 5;
+        dp.n = 2;
+        dp.nums = new int[]{2,7,9,3,1};
+        dp.s = "bab";
+        System.out.println(dp.rob(dp.nums));
 
     }
+
+
+
+
+/*****************************     打家劫舍     *************************
+    如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+    给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
+     输入：[2,7,9,3,1]
+     输出：12
+     解释：偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。
+     偷窃到的最高金额 = 2 + 9 + 1 = 12 。
+ 思路: 动态规划, 在 i 个屋子里偷窃,有第i个房子偷不偷两种情况, 所得最大总金额为 dp[i] = max{dp[i-2]+nums[i], dp[i-1]}
+*/
+    public int rob(int[] nums) {
+        int[] dp = new int[nums.length];
+        if (nums.length==1){
+            return nums[0];
+        }
+        else if (nums.length==2){
+            return Math.max(nums[0],nums[1]);
+        }
+        dp[0] = nums[0];
+        dp[1] = Math.max(nums[0],nums[1]);
+        for (int i = 2; i < nums.length; i++) {
+            dp[i] = Math.max(dp[i-2]+nums[i], dp[i-1]);
+        }
+        return dp[nums.length-1];
+    }
+
+
+
+
+
+/****************************     最长回文子串     *************************
+    输入：s = "babad"
+    输出："bab"
+    解释："aba" 同样是符合题意的答案。
+ 思路1: i i+1...j-1 j; 若s[i+1,j-1]是回文子串,s[i]=s[j],那么s[i,j]也是回文串.由于由s[i+1,j-1] && s[i]=s[j]→s[i,j],故双层循环顺序为i-- j++
+ 思路2:中心扩散法,遍历选取中心点 i,每个中心点向左右两侧扩散,得到最长回文串f(i),取max
+*/
+    public String longestPalindrome(String s) {
+        boolean[][] dp = new boolean[s.length()][s.length()];   //dp[][]
+        String res="";
+        // 由s[i+1,j-1]→s[i,j],故双层循环顺序为i-- j++
+        for (int i = s.length()-1; i >= 0; i--) {
+            for (int j = i; j < s.length(); j++) {
+                // j-i<2时符合回文串定义
+                if (s.charAt(i)==s.charAt(j) && (j-i<2 || dp[i+1][j-1])){
+                    dp[i][j] = true;
+                    // 取最长子串
+                    res = res.length() >= j-i+1 ? res : s.substring(i,j+1);
+                }
+                else {
+                    dp[i][j] = false;
+                }
+            }
+
+        }
+        return res;
+    }
+
+
+
 
 
 
@@ -23,11 +87,35 @@ public class DpTest {
     在「杨辉三角」中，每个数是它左上方和右上方的数的和。
      输入: numRows = 5
      输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
- 思路: 动态规划;对于坐标[i,j]表示第i行第j个数,dp[i,j] = dp[i-1,j-1] + dp[i-1,j]
+ 思路: 动态规划;对于坐标[i,j]表示第i行第j个数(非首末): dp[i,j] = dp[i-1,j-1] + dp[i-1,j]
 */
-//    public List<List<Integer>> generate(int numRows) {
-//
-//    }
+    public List<List<Integer>> generate(int numRows) {
+        Deque<Integer> stack = new ArrayDeque<>();
+        List<List<Integer>> res = new ArrayList<>();
+
+        if (numRows == 1){
+            return Arrays.asList(Arrays.asList(1));
+        }
+        else if (numRows == 2){
+            return Arrays.asList(Arrays.asList(1),Arrays.asList(1, 1));
+        }
+        // 行数>=3时,逐行进行计算,对于第i行非首末的数: dp[i,j] = dp[i-1,j-1] + dp[i-1,j]
+        res.add(Arrays.asList(1));
+        res.add(Arrays.asList(1, 1));;
+        stack.push(1);
+        for (int i = 2; i < numRows; i++) {
+            stack.clear();
+            stack.addLast(1);
+            int index=1;
+            while (index<i){
+                stack.addLast((res.get(i-1)).get(index-1) + (res.get(i-1)).get(index));
+                index++;
+            }
+            stack.addLast(1);
+            res.add(new ArrayList<>(stack));
+        }
+        return res;
+    }
 
 
 
