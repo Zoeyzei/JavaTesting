@@ -1,20 +1,78 @@
 package com.java.CodeCapriccio;
 
+import java.lang.reflect.WildcardType;
 import java.util.*;
 
 public class DpTest {
     int m,n;
-    int[] nums;
+    int[] nums,value;
     String s;
 
     public static void main(String[] args) {
         DpTest dp = new DpTest();
-        dp.m = 5;
+        dp.m = 4;
         dp.n = 2;
-        dp.nums = new int[]{2,7,9,3,1};
+        dp.nums = new int[]{1,3,4};
+        dp.value = new int[]{15,20,30};
         dp.s = "bab";
-        System.out.println(dp.rob(dp.nums));
+        System.out.println(dp.bagProblem01(dp.nums,dp.value,dp.m));
 
+    }
+
+
+/******************************     完全背包     *************************
+有N件物品和一个最多能背重量为W的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。
+每件物品都有无限个（也就是可以放入背包多次），求解将哪些物品装入背包里物品价值总和最大。
+           重量	价值
+     物品0	1	15
+     物品1	3	20
+     物品2	4	30
+ 递推公式:从下标为[0-i]的物品里任意取无数个,放入容量为 j 的背包,有放不放得下第 i 件物品两种情况,最终能获得的最大价值为 dp[i][j] = max{dp[i-1][j], dp[i-1][j-weight[i]]+value[i]}
+ 初始条件: 根据示例数据,dp[][0]=0, dp[0][j>=1]=15
+ 遍历顺序: i++ j++ 或者 j++ i++
+*/
+
+
+
+
+
+
+
+/*****************************     01 背包     *************************
+有n件物品和一个最多能背重量为w 的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。
+每件物品只能用一次，求解将哪些物品装入背包里物品价值总和最大。
+           重量 	价值
+     物品0	1	15
+     物品1	3	20
+     物品2	4	30
+ 思路:动态规划;
+ 递推公式:从下标为[0-i]的物品里任意取,放入容量为 j 的背包,有放不放得下第 i 件物品两种情况,最终能获得的最大价值为 dp[i][j] = max{dp[i-1][j], dp[i-1][j-weight[i]]+value[i]}
+ 初始条件: 根据示例数据,dp[][0]=0, dp[0][j>=1]=15
+ 遍历顺序: i++ j++ 或者 j++ i++
+*/
+    public int bagProblem01(int[] weight, int[] value, int bagSize) {
+        int[][] dp = new int[weight.length][bagSize+1];
+        if (bagSize==0){
+            return 0;
+        }
+        // 初始化
+        for (int i = weight[0]; i <= bagSize; i++) {
+            dp[0][i] = value[0];
+        }
+        // 先遍历物品再遍历背包容量
+        for (int i = 1; i < weight.length; i++) {
+            for (int j = 1; j <= bagSize; j++) {
+                // 若j < weight[i],肯定放不下物品i
+                if (j < weight[i]){
+                    dp[i][j] = dp[i-1][j];
+                }
+                // 若j >= weight[i],有放不放得下第 i 件物品两种情况,取max
+                else {
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-weight[i]]+value[i]);
+                }
+            }
+        }
+        return dp[weight.length-1][bagSize];
     }
 
 
